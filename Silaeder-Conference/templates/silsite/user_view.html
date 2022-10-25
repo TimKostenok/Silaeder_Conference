@@ -1,0 +1,28 @@
+{% extends 'silsite/base.html' %}
+
+{% block content %}
+    <p style="font-size:25px"><a> {{ User.last_name }} {{ User.first_name}}</a></p>
+    <p style="font-size:25px"><a> Доступные проекты </a></p>
+    <table class="project-table">
+        <thead>
+            <tr class="project-table-header">
+                  <td>Название проекта</td>
+                  <td>Участники</td>
+              </tr>
+          </thead>
+          <tbody>
+              {% if projects %}
+                  {% for project in projects %}
+                      <tr>
+                          <td><a href="{% url 'project_view' project.id %}">{{ project.name }}</a></td>
+                          <td><a>{{ project.students }} </a></td>
+                      </tr>
+                  {% endfor %}
+              {% else %}
+                  <tr>
+                      <td>Здесь пусто</td><td></td>
+                  </tr>
+              {% endif %}
+          </tbody>
+        </table>
+{% endblock %}

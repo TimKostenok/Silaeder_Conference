@@ -1,0 +1,8 @@
+{% extends 'silsite/base.html' %}
+
+{% block content %}
+    <h1 style="font-color:red">ВЫ УВЕРЕНЫ, ЧТО ХОТИТЕ УДАЛИТЬ ПРОЕКТ?</h1>
+    <form method = 'POST'>{% csrf_token %}
+        <input type = 'submit' name = 'Yes' value = 'Да' id = 'my_buttons' class="btn btn-primary"> <input type = 'submit' name = 'No' value = 'Нет' id = 'my_buttons' class="btn btn-primary">
+    </form>
+{% endblock %}

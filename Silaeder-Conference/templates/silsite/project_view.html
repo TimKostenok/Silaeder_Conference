@@ -1,0 +1,52 @@
+{% extends 'silsite/base.html' %}
+
+{% block content %}
+    <br>
+    <p style="font-size:25px"><a>Название: {{ project.name }}</a></p>
+    <p style="font-size:25px"><a>Научный руководитель: {{ project.teacher.last_name }} {{ project.teacher.first_name }}</a></p>
+    <p style="font-size:25px"><a>Участники: {{ project.students }}</a></p>
+    <table class="project-table" style="width:800px; margin-left: 0px">
+        <thead>
+            <tr class="project-table-header">
+                <td>Документ</td>
+                <td>ссылка</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a>Краткое описание</a></td>
+                <td><a href="/media/{{ short_text_name }}" download>Скачать</a></td>
+            </tr>
+            <tr>
+                <td><a>Полный Текст</a></td>
+                <td><a href="/media/{{ text_name }}" download>Скачать</a></td>
+            </tr>
+            <tr>
+                <td><a>Презентация</a></td>
+                <td><a href="/media/{{ presentation_name }}" download>Скачать</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="font-size:25px"><a> Добавленные видео</a></p>
+    {% for video in videos %}
+        <div class="card" style="width:250px;height:150px; display:inline-block; margin-right: 20px">
+            <div class="container">
+                <a>Показать после {{ video.video_wishes }} слайда </a>
+                <p><a href="{{ video.video }}">Ссылка</a></p>
+                {% if  project.teacher.username == username %}
+                    <form method = 'POST'>{% csrf_token %}
+                        <input class="btn btn-outline-danger" type='submit' name='{{ video.id }}' value='Удалить' id='my_buttons'>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    {% if  project.teacher.username == username %}
+        <div style="display: block; margin-top:40px">
+          <div style="margin-bottom: 10px">Отправьте эту <a href="{% url 'edit_project' project.id %}">Ссылку</a> вашему подопечному, чтобы он смог редактировать этот проект<br></div>
+          <a href = "edit"><button id = 'my_buttons' value = 'Edit' class = 'btn btn-primary'>Изменить проект</button></a>
+          <a href = "delete"><button id = 'my_buttons' value = 'Delete' class = 'btn btn-primary'>Удалить проект</button></a>
+          <a href="add"><button class = 'btn btn-primary'>Добавить видео</button></a>
+        </div>
+    {% endif %}
+{% endblock %}
